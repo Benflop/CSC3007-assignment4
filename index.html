@@ -7,8 +7,6 @@
 </head>
 
 <body>
-    <button id="group1">Multiple Groups</button>
-    <button id="group2">One Center</button>
     <svg></svg>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script>
@@ -20,8 +18,8 @@
             .attr("height", height);
 
         let colorScale = d3.scaleOrdinal()
-            .domain([0, 1, 2])
-            .range(["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", "#bcbd22", "#17becf"]);
+            .domain([0, 1])
+            .range(["#add2e4", "#f678a7"]);
 
         let xPosition = d3.scaleOrdinal()
             .domain([0, 1, 2])
@@ -55,24 +53,24 @@
             .style("fill", d => colorScale(d.class))
             .call(d3.drag()
                 .on("start", dragstarted)
-                .on("drag", dragged)
-                .on("end", dragended));
+                .on("drag", dragged));
+                // .on("end", dragended));
 
-        d3.select("#group1").on("click", function () {
-            simulation
-                .force("x", d3.forceX().strength(0.5).x(d => xPosition(d.class)))
-                .force("y", d3.forceY().strength(0.2).y(height / 2))
-                .alphaTarget(0.3)
-                .restart();
-        })
+        // d3.select("#group1").on("click", function () {
+        //     simulation
+        //         .force("x", d3.forceX().strength(0.5).x(d => xPosition(d.class)))
+        //         .force("y", d3.forceY().strength(0.2).y(height / 2))
+        //         .alphaTarget(0.3)
+        //         .restart();
+        // })
 
-        d3.select("#group2").on("click", function () {
-            simulation
-                .force("x", d3.forceX().strength(0.1).x(400))
-                .force("y", d3.forceY().strength(0.1).y(400))
-                .alphaTarget(0.4)
-                .restart();
-        })
+        // d3.select("#group2").on("click", function () {
+        //     simulation
+        //         .force("x", d3.forceX().strength(0.1).x(400))
+        //         .force("y", d3.forceY().strength(0.1).y(400))
+        //         .alphaTarget(0.4)
+        //         .restart();
+        // })
 
         let linkpath = svg.append("g")
             .attr("id", "links")
@@ -91,8 +89,8 @@
                 .id(d => d.id)
                 .distance(50)
                 .strength(0.5))
-            .force("charge", d3.forceManyBody().strength(0))
-            .force("collide", d3.forceCollide().strength(0.1).radius(15))
+            // .force("charge", d3.forceManyBody().strength(0))
+            // .force("collide", d3.forceCollide().strength(0.1).radius(15))
             .on("tick", d => {
                 node
                     .attr("cx", d => d.x)
