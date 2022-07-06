@@ -43,8 +43,19 @@
         }
         console.log(links);
 
+        let tooltip = d3.select(".svg")
+            .append("div")
+            .style("opacity", 0)
+            .attr("class", "tooltip")
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("padding", "5px");
+
         let node = svg.append("g")
             .attr("id", "nodes")
+            .attr("id", "tooltip")
             .selectAll("circle")
             .data(data)
             .enter()
@@ -53,8 +64,20 @@
             .style("fill", d => colorScale(d.class))
             .call(d3.drag()
                 .on("start", dragstarted)
-                .on("drag", dragged));
-                // .on("end", dragended));
+                .on("drag", dragged))
+            .on("mouseover", (event, d) => {
+                d3.select(".tooltip")
+                    .text(d[0] + " : " + d[1])
+                    .style("position", "absolute")
+                    .style("background", "#fff")
+                    .style("left", (event.pageX) + "px")
+                    .style("top", (event.pageY) + "px");
+            })
+            .on("mouseout", (event, d) => {
+                d3.select(".tooltip")
+                    .text("")
+            });
+        // .on("end", dragended));
 
         // d3.select("#group1").on("click", function () {
         //     simulation
